@@ -14,3 +14,8 @@ type User struct {
 func (user User) GetUid() string {
 	return strconv.Itoa(int(user.ID.ID))
 }
+
+type UserNotPassword struct {
+	*User
+	notPassword string `json:"password,omitempty"`
+}

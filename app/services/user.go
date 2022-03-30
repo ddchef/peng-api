@@ -46,7 +46,7 @@ func (userService *userService) GetUserInfo(id string) (err error, user models.U
 }
 
 // 获取所有用户列表
-func (userService *userService) GetUserList() (err error, users []models.User) {
+func (userService *userService) GetUserList() (err error, users []models.UserNotPassword) {
 	err = global.App.DB.Find(&users).Error
 	if err != nil {
 		err = errors.New("查询失败")

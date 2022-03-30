@@ -3,6 +3,7 @@ package app
 import (
 	"peng-api/app/common/request"
 	"peng-api/app/common/response"
+	"peng-api/app/models"
 	"peng-api/app/services"
 
 	"github.com/gin-gonic/gin"
@@ -19,7 +20,7 @@ func Register(c *gin.Context) {
 	if err, user := services.UserService.Register(form); err != nil {
 		response.BusinessFail(c, err.Error())
 	} else {
-		response.Success(c, user)
+		response.Success(c, models.UserNotPassword{User: &user})
 	}
 }
 
@@ -29,7 +30,7 @@ func Info(c *gin.Context) {
 		response.BusinessFail(c, err.Error())
 		return
 	}
-	response.Success(c, user)
+	response.Success(c, models.UserNotPassword{User: &user})
 }
 
 func Users(c *gin.Context) {
