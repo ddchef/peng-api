@@ -46,8 +46,8 @@ func (userService *userService) GetUserInfo(id string) (err error, user models.U
 }
 
 // 获取所有用户列表
-func (userService *userService) GetUserList() (err error, users []models.UserNotPassword) {
-	err = global.App.DB.Find(&users).Error
+func (userService *userService) GetUserList(offset int, limit int) (err error, users []models.UserNotPassword, count int64) {
+	err = global.App.DB.Model(&models.User{}).Limit(limit).Offset(offset).Find(&users).Count(&count).Error
 	if err != nil {
 		err = errors.New("查询失败")
 	}

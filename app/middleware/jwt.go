@@ -38,9 +38,9 @@ func JWTAuth(GuardName string) gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
+		timer := time.Now().Unix()
 		// token 续签
-		if claims.ExpiresAt-time.Now().Unix() < global.App.Config.Jwt.RefreshGracePeriod {
+		if claims.ExpiresAt-timer < global.App.Config.Jwt.RefreshGracePeriod {
 			lock := global.Lock("refresh_token_lock", global.App.Config.Jwt.JwtBlacklistGracePeriod)
 			if lock.Get() {
 				err, user := services.JwtService.GetUserInfo(GuardName, claims.Id)

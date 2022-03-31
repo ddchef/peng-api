@@ -3,8 +3,10 @@ package app
 import (
 	"peng-api/app/common/request"
 	"peng-api/app/common/response"
+	"peng-api/app/do"
 	"peng-api/app/models"
 	"peng-api/app/services"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -34,10 +36,15 @@ func Info(c *gin.Context) {
 }
 
 func Users(c *gin.Context) {
-	err, users := services.UserService.GetUserList()
+	offset, _ := strconv.Atoi(c.DefaultQuery("offset", "0"))
+	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "20"))
+	err, users, count := services.UserService.GetUserList(offset, limit)
 	if err != nil {
 		response.BusinessFail(c, err.Error())
 		return
 	}
-	response.Success(c, users)
+	response.Success(c, do.List{
+		List:  users,
+		Total: count,
+	})
 }

@@ -17,5 +17,5 @@ func (user User) GetUid() string {
 
 type UserNotPassword struct {
 	*User
-	notPassword string `json:"password,omitempty"`
+	Password string `json:"-" gorm:"not null;default:'';comment:用户密码"`
 }
