@@ -4,3 +4,5 @@ config.yaml
 logs/*
 __debug_bin
 .DS_Store
+bin
+tmp
