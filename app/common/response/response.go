@@ -1,6 +1,7 @@
 package response
 
 import (
+	"bytes"
 	"net/http"
 	"peng-api/global"
 
@@ -21,6 +22,10 @@ func Success(c *gin.Context, data interface{}) {
 		data,
 		"ok",
 	})
+}
+
+func Image(c *gin.Context, img bytes.Buffer) {
+	c.Writer.WriteString(img.String())
 }
 
 // Fail 响应失败 ErrorCode 不为 0 表示失败

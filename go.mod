@@ -3,7 +3,9 @@ module peng-api
 go 1.17
 
 require (
+	github.com/dchest/captcha v0.0.0-20200903113550-03f5f0333e1f
 	github.com/go-redis/redis/v8 v8.11.4
+	github.com/gofrs/uuid v4.2.0+incompatible
 	gorm.io/gorm v1.23.2
 )
 

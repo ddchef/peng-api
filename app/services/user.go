@@ -16,6 +16,11 @@ var UserService = new(userService)
 
 // Register 注册
 func (userService *userService) Register(params request.Register) (err error, user models.User) {
+	verify := CaptchaService.Verify(params.ID, params.Code)
+	if verify != true {
+		err = errors.New("验证码错误")
+		return
+	}
 	var result = global.App.DB.Where("username = ?", params.Username).Select("id").First(&models.User{})
 	if result.RowsAffected != 0 {
 		err = errors.New("用户名已存在")
@@ -28,6 +33,11 @@ func (userService *userService) Register(params request.Register) (err error, us
 
 // Login 登录
 func (userService *userService) Login(params request.Login) (err error, user *models.User) {
+	verify := CaptchaService.Verify(params.Id, params.Code)
+	if verify != true {
+		err = errors.New("验证码错误")
+		return
+	}
 	err = global.App.DB.Where("username = ?", params.Username).First(&user).Error
 	if err != nil || !utils.BcryptMakeCheck([]byte(params.Password), user.Password) {
 		err = errors.New("用户名不存在或密码错误")

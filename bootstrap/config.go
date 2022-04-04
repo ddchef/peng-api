@@ -38,6 +38,6 @@ func InitializeConfig() *viper.Viper {
 	if err := v.Unmarshal(&global.App.Config); err != nil {
 		fmt.Println(err)
 	}
-
+	fmt.Println(global.App.Config)
 	return v
 }
