@@ -26,7 +26,7 @@ func (userService *userService) Register(params request.Register) (err error, us
 		err = errors.New("用户名已存在")
 		return
 	}
-	user = models.User{Username: params.Username, Mobile: params.Mobile, Password: utils.BcryptMake([]byte(params.Password))}
+	user = models.User{Username: params.Username, Email: params.Email, Password: utils.BcryptMake([]byte(params.Password))}
 	err = global.App.DB.Create(&user).Error
 	return
 }
@@ -41,6 +41,9 @@ func (userService *userService) Login(params request.Login) (err error, user *mo
 	err = global.App.DB.Where("username = ?", params.Username).First(&user).Error
 	if err != nil || !utils.BcryptMakeCheck([]byte(params.Password), user.Password) {
 		err = errors.New("用户名不存在或密码错误")
+	}
+	if user.Active != true {
+		err = errors.New("该用户不允许登录")
 	}
 	return
 }
