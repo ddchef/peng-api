@@ -14,7 +14,7 @@ type captchaService struct{}
 
 var CaptchaService = new(captchaService)
 
-func (captchaService *captchaService) CreateCaptcha() (uuidStr string, err error) {
+func (casbinService *captchaService) CreateCaptcha() (uuidStr string, err error) {
 	captchaId := captcha.NewLen(global.App.Config.Captcha.Len)
 	id, err := uuid.NewV4()
 	uuidStr = id.String()
@@ -22,7 +22,7 @@ func (captchaService *captchaService) CreateCaptcha() (uuidStr string, err error
 	return
 }
 
-func (captchaService *captchaService) CaptchaImage(id string) (img bytes.Buffer) {
+func (casbinService *captchaService) CaptchaImage(id string) (img bytes.Buffer) {
 	captchaId, err := global.App.Redis.Get(context.Background(), id).Result()
 	if err != nil {
 		return
@@ -31,7 +31,7 @@ func (captchaService *captchaService) CaptchaImage(id string) (img bytes.Buffer)
 	return
 }
 
-func (captchaService *captchaService) Verify(id string, digits string) bool {
+func (casbinService *captchaService) Verify(id string, digits string) bool {
 	captchaId, err := global.App.Redis.Get(context.Background(), id).Result()
 	if err != nil {
 		return false

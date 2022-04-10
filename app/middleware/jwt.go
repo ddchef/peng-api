@@ -58,5 +58,6 @@ func JWTAuth(GuardName string) gin.HandlerFunc {
 
 		c.Set("token", token)
 		c.Set("id", claims.Id)
+		c.Set("casbin_user", claims.User)
 	}
 }

@@ -55,3 +55,7 @@ func BusinessFail(c *gin.Context, msg string) {
 func TokenFail(c *gin.Context) {
 	FailByError(c, global.Errors.TokenError)
 }
+
+func PermissionsFail(c *gin.Context) {
+	FailByError(c, global.Errors.PermissionError)
+}

@@ -13,6 +13,8 @@ func main() {
 	global.App.Log.Info("log init success!")
 	// 初始化数据库
 	global.App.DB = bootstrap.InitializeDB()
+	// 初始化 Casbin
+	global.App.Casbin = bootstrap.InitializeCasbin()
 	// 程序关闭前，释放数据库连接
 	defer func() {
 		if global.App.DB != nil {

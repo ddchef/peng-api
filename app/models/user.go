@@ -8,12 +8,18 @@ type User struct {
 	Email    string `json:"email" gorm:"null;comment:用户邮箱"`
 	Password string `json:"password" gorm:"not null;default:'';comment:用户密码"`
 	Active   bool   `json:"active" gorm:"not null;default:false;comment:用户状态"`
+	Avatar   string `json:"avatar" gorm:"not null;default:'';comment:用户头像"`
+	RealName string `json:"realName" gorm:"not null;comment:用户姓名"`
 	Timestamps
 	SoftDeletes
 }
 
 func (user User) GetUid() string {
 	return strconv.Itoa(int(user.ID.ID))
+}
+
+func (user User) GetUser() string {
+	return user.Username
 }
 
 type UserNotPassword struct {
