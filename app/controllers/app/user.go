@@ -11,7 +11,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Register 用户注册
+//用户注册
+// Register 用户注册接口
+// @Summary 用户注册接口
+// @Description 可以注册用户
+// @Tags 公共接口
+// @Accept application/json
+// @Produce application/json
+// @Param username body string false "用户名"
+// @Param password body string false "用户密码"
+// @Param email body string false "用户邮箱"
+// @Param code body string false "验证码"
+// @Param id body string false "验证码对应的 id"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Router /public/register [post]
 func Register(c *gin.Context) {
 	var form request.Register
 	if err := c.ShouldBindJSON(&form); err != nil {

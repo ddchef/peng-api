@@ -5,6 +5,13 @@ import (
 	"peng-api/global"
 )
 
+// @title Peng API
+// @version 1.0
+// @description example
+// @securityDefinitions.apikey ApiKeyAuth 启用token
+// @in header
+// @name Authorization
+// @BasePath /api/v1
 func main() {
 	// 初始化配置
 	bootstrap.InitializeConfig()

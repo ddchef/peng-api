@@ -12,16 +12,21 @@ import (
 	"syscall"
 	"time"
 
+	docs "peng-api/docs"
+
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func setupRouter() *gin.Engine {
 	router := gin.Default()
-
+	docs.SwaggerInfo.BasePath = "/api/v1"
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	routes.SetStaticRoutes(router)
 
 	// 注册 api 分组路由
-	apiGroup := router.Group("/api")
+	apiGroup := router.Group("/api/v1")
 	routes.SetApiGroupRoutes(apiGroup)
 
 	return router
