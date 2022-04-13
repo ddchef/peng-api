@@ -23,7 +23,7 @@ func SetApiGroupRoutes(router *gin.RouterGroup) {
 	// 用户管理
 	userRouter := authRouter.Group("user")
 	{
-		userRouter.POST("/info", app.Info)
+		userRouter.GET("/info", app.Info)
 		userRouter.GET("/users", app.Users)
 	}
 	// 权限管理
