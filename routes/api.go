@@ -15,7 +15,7 @@ func SetApiGroupRoutes(router *gin.RouterGroup) {
 	{
 		publicRouter.POST("/register", app.Register)
 		publicRouter.POST("/login", app.Login)
-		publicRouter.GET("/captcha", common.CreateCaptcha)
+		publicRouter.POST("/captcha", common.CreateCaptcha)
 		publicRouter.GET("/captcha/:id", common.CaptchaImage)
 
 	}

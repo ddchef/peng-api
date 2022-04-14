@@ -16,11 +16,7 @@ import (
 // @Summary 用户注册接口
 // @Description 可以注册用户
 // @Tags 公共接口
-// @Param username body string false "用户名"
-// @Param password body string false "用户密码"
-// @Param email body string false "用户邮箱"
-// @Param code body string false "验证码"
-// @Param id body string false "验证码对应的 id"
+// @Param form body request.Register true "用户信息"
 // @Success 200 {object} response.Response{data=models.User}
 // @Router /public/register [post]
 func Register(c *gin.Context) {

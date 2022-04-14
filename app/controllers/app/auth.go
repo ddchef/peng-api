@@ -9,6 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// 登录
+// Register 登录
+// @Summary 登录接口
+// @Description 登录接口
+// @Tags 公共接口
+// @Param form body request.Login true "login"
+// @Success 200 {object} response.Response{data=services.TokenOutPut}
+// @Router /public/login [post]
 func Login(c *gin.Context) {
 	var form request.Login
 	if err := c.ShouldBindJSON(&form); err != nil {
@@ -28,6 +36,14 @@ func Login(c *gin.Context) {
 	}
 }
 
+// 登出
+// Register 登出
+// @Summary 登出接口
+// @Description 登出接口
+// @Tags 公共接口
+// @Security ApiKeyAuth
+// @Success 200 {object} response.Response
+// @Router /common/logout [post]
 func Logout(c *gin.Context) {
 	err := services.JwtService.JoinBlackList(c.Keys["token"].(*jwt.Token))
 	if err != nil {

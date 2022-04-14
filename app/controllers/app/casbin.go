@@ -1,12 +1,21 @@
 package app
 
 import (
-	"github.com/gin-gonic/gin"
 	"peng-api/app/common/request"
 	"peng-api/app/common/response"
 	"peng-api/app/services"
+
+	"github.com/gin-gonic/gin"
 )
 
+// 添加策略
+// Register 添加策略
+// @Summary 添加策略接口
+// @Tags 权限管理
+// @Security ApiKeyAuth
+// @Param policy body request.Policy true "策略"
+// @Success 200 {object} response.Response
+// @Router /casbin/policy [post]
 func AddPolicy(c *gin.Context) {
 	var policy request.Policy
 	if err := c.ShouldBindJSON(&policy); err != nil {
@@ -18,6 +27,14 @@ func AddPolicy(c *gin.Context) {
 	}
 }
 
+// 添加用户、角色和域的策略
+// Register 添加用户、角色和域的策略
+// @Summary 添加用户、角色和域的策略接口
+// @Tags 权限管理
+// @Security ApiKeyAuth
+// @Param policy body request.UserRolePolicy true "策略"
+// @Success 200 {object} response.Response
+// @Router /casbin/user [post]
 func AddRoleForUserInDomain(c *gin.Context) {
 	var user request.UserRolePolicy
 	if err := c.ShouldBindJSON(&user); err != nil {
