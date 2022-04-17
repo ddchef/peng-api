@@ -56,7 +56,7 @@ func (userService *userService) GetUserInfo(id string) (err error, user models.U
 	return
 }
 
-// 获取所有用户列表
+// GetUserList 获取所有用户列表
 func (userService *userService) GetUserList(offset int, limit int) (err error, users []models.UserNotPassword, count int64) {
 	err = global.App.DB.Model(&models.User{}).Limit(limit).Offset(offset).Find(&users).Count(&count).Error
 	if err != nil {
@@ -70,7 +70,7 @@ func (userService *userService) UpdateUser(id string, params request.BaseUser) (
 	if err != nil {
 		return
 	}
-	err = global.App.DB.Model(&user).Updates(params).Error
+	err = global.App.DB.Model(&user).Updates(models.User{Username: params.Username, Email: params.Email}).Error
 	if err != nil {
 		err = errors.New("更新失败")
 	}
@@ -97,5 +97,17 @@ func (userService *userService) CreateUser(params request.BaseUser) (err error, 
 	}
 	user = models.User{Username: params.Username, Email: params.Email, Password: utils.BcryptMake([]byte("1qazXSW@@"))}
 	err = global.App.DB.Create(&user).Error
+	return
+}
+
+func (userService *userService) UpdateUserActive(id string, active bool) (err error, user models.User) {
+	err, user = userService.GetUserInfo(id)
+	if err != nil {
+		return
+	}
+	user.Active = active
+	if err = global.App.DB.Save(&user).Error; err != nil {
+		err = errors.New("更新状态失败")
+	}
 	return
 }

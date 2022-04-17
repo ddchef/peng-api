@@ -29,6 +29,7 @@ func SetApiGroupRoutes(router *gin.RouterGroup) {
 		userRouter.PUT("/:id", app.UpdateUser)
 		userRouter.DELETE("/:id", app.DeleteUser)
 		userRouter.GET("/:id", app.InfoUser)
+		userRouter.PUT("/active/:id", app.UpdateUserActive)
 	}
 	// 角色管理
 	roleRouter := authRouter.Group("role")

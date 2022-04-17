@@ -11,7 +11,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//用户注册
 // Register 用户注册接口
 // @Summary 用户注册接口
 // @Description 可以注册用户
@@ -33,8 +32,7 @@ func Register(c *gin.Context) {
 	}
 }
 
-// 获取当前用户信息
-// Register 当前用户信息
+// Info 当前用户信息
 // @Summary 当前用户信息接口
 // @Description 获取当前用户信息接口
 // @Tags 用户管理
@@ -50,8 +48,7 @@ func Info(c *gin.Context) {
 	response.Success(c, models.UserNotPassword{User: &user})
 }
 
-// 用户列表
-// Register 用户列表
+// Users 用户列表
 // @Summary 用户列表接口
 // @Description 获取用户列表接口
 // @Tags 用户管理
@@ -72,13 +69,12 @@ func Users(c *gin.Context) {
 	})
 }
 
-// 创建用户
-// Register 创建用户接口
+// CreateUser 创建用户接口
 // @Summary 创建用户接口
 // @Tags  用户管理
 // @Security BearerAuth
 // @Param form body request.BaseUser true "用户信息"
-// @Success 200 {object} response.Response{data=models.User}
+// @Success 200 {object} response.Response{data=models.UserNotPassword}
 // @Router /user [post]
 func CreateUser(c *gin.Context) {
 	var form request.BaseUser
@@ -90,12 +86,11 @@ func CreateUser(c *gin.Context) {
 		response.BusinessFail(c, err.Error())
 		return
 	} else {
-		response.Success(c, user)
+		response.Success(c, models.UserNotPassword{User: &user})
 	}
 }
 
-// 删除用户
-// Register 删除用户接口
+// DeleteUser 删除用户接口
 // @Summary 删除用户接口
 // @Tags  用户管理
 // @Security BearerAuth
@@ -111,14 +106,13 @@ func DeleteUser(c *gin.Context) {
 	}
 }
 
-// 更新用户
-// Register 更新用户接口
+// UpdateUser 更新用户接口
 // @Summary 更新用户接口
 // @Tags  用户管理
 // @Security BearerAuth
 // @Param id path string true "用户ID"
 // @Param form body request.BaseUser true "用户信息"
-// @Success 200 {object} response.Response{data=models.User}
+// @Success 200 {object} response.Response{data=models.UserNotPassword}
 // @Router /user/{id} [put]
 func UpdateUser(c *gin.Context) {
 	id := c.Param("id")
@@ -131,17 +125,16 @@ func UpdateUser(c *gin.Context) {
 		response.BusinessFail(c, err.Error())
 		return
 	} else {
-		response.Success(c, user)
+		response.Success(c, models.UserNotPassword{User: &user})
 	}
 }
 
-// 查看用户信息
-// Register 查看用户信息接口
+// InfoUser 查看用户信息接口
 // @Summary 查看用户信息接口
 // @Tags  用户管理
 // @Security BearerAuth
 // @Param id path string true "用户ID"
-// @Success 200 {object} response.Response{data=models.User}
+// @Success 200 {object} response.Response{data=models.UserNotPassword}
 // @Router /user/{id} [get]
 func InfoUser(c *gin.Context) {
 	id := c.Param("id")
@@ -149,6 +142,30 @@ func InfoUser(c *gin.Context) {
 		response.BusinessFail(c, err.Error())
 		return
 	} else {
-		response.Success(c, user)
+		response.Success(c, models.UserNotPassword{User: &user})
+	}
+}
+
+// UpdateUserActive  更新用户状态接口
+// @Summary 更新用户状态接口
+// @Tags  用户管理
+// @Security BearerAuth
+// @Param id path string true "用户ID"
+// @Param form body struct{Active bool} true "用户状态"
+// @Success 200 {object} response.Response{data=models.UserNotPassword}
+// @Router /user/active/:id [put]
+func UpdateUserActive(c *gin.Context) {
+	id := c.Param("id")
+	var form struct {
+		Active bool
+	}
+	if err := c.BindJSON(&form); err != nil {
+		response.BusinessFail(c, "缺少状态字段")
+	}
+	if err, user := services.UserService.UpdateUserActive(id, form.Active); err != nil {
+		response.BusinessFail(c, err.Error())
+		return
+	} else {
+		response.Success(c, models.UserNotPassword{User: &user})
 	}
 }
