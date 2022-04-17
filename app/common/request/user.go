@@ -1,8 +1,22 @@
 package request
 
-type Register struct {
-	Username string `form:"username" json:"username" binding:"required"`
+type BaseUser struct {
+	Username string `form:"username" json:"username" binding:"min=4,max=10,required"`
 	Email    string `form:"email" json:"email" binding:"email"`
+}
+
+func (user BaseUser) GetMessages() ValidatorMessages {
+	return ValidatorMessages{
+		"username.required": "用户名称不能为空",
+		"username.min":      "用户名称长度为4~10",
+		"username.max":      "用户名称长度为4~10",
+		"email.required":    " 邮箱不能为空",
+		"email.email":       " 邮箱格式不正确",
+	}
+}
+
+type Register struct {
+	BaseUser
 	Password string `form:"password" json:"password" binding:"required"`
 	Code     string `form:"code" json:"code" binding:"required"`
 	ID       string `form:"id" json:"id" binding:"required"`

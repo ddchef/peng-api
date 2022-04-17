@@ -10,7 +10,7 @@ type Policy struct {
 func (policy Policy) GetMessages() ValidatorMessages {
 	return ValidatorMessages{
 		"role.required":   "角色不能为空",
-		"dom.required":    "域不能为空",
+		"dom.required":    "组不能为空",
 		"path.required":   "接口不能为空",
 		"method.required": "方法不能为空",
 	}
@@ -25,7 +25,7 @@ type UserRolePolicy struct {
 func (userRolePolicy UserRolePolicy) GetMessages() ValidatorMessages {
 	return ValidatorMessages{
 		"role.required": "角色不能为空",
-		"dom.required":  "域不能为空",
+		"dom.required":  "组不能为空",
 		"user.required": "用户不能为空",
 	}
 }

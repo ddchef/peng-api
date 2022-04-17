@@ -38,7 +38,7 @@ func Register(c *gin.Context) {
 // @Summary 当前用户信息接口
 // @Description 获取当前用户信息接口
 // @Tags 用户管理
-// @Security ApiKeyAuth
+// @Security BearerAuth
 // @Success 200 {object} response.Response{data=models.UserNotPassword}
 // @Router /user/info [get]
 func Info(c *gin.Context) {
@@ -55,7 +55,7 @@ func Info(c *gin.Context) {
 // @Summary 用户列表接口
 // @Description 获取用户列表接口
 // @Tags 用户管理
-// @Security ApiKeyAuth
+// @Security BearerAuth
 // @Success 200 {object} response.Response{data=do.List{list=[]models.UserNotPassword}}
 // @Router /user/users [get]
 func Users(c *gin.Context) {
@@ -70,4 +70,85 @@ func Users(c *gin.Context) {
 		List:  users,
 		Total: count,
 	})
+}
+
+// 创建用户
+// Register 创建用户接口
+// @Summary 创建用户接口
+// @Tags  用户管理
+// @Security BearerAuth
+// @Param form body request.BaseUser true "用户信息"
+// @Success 200 {object} response.Response{data=models.User}
+// @Router /user [post]
+func CreateUser(c *gin.Context) {
+	var form request.BaseUser
+	if err := c.ShouldBindJSON(&form); err != nil {
+		response.ValidateFail(c, request.GetErrorMsg(form, err))
+		return
+	}
+	if err, user := services.UserService.CreateUser(form); err != nil {
+		response.BusinessFail(c, err.Error())
+		return
+	} else {
+		response.Success(c, user)
+	}
+}
+
+// 删除用户
+// Register 删除用户接口
+// @Summary 删除用户接口
+// @Tags  用户管理
+// @Security BearerAuth
+// @Param id path string true "用户ID"
+// @Success 200 {object} response.Response
+// @Router /user/{id} [delete]
+func DeleteUser(c *gin.Context) {
+	id := c.Param("id")
+	if err := services.UserService.DeleteUser(id); err != nil {
+		response.BusinessFail(c, err.Error())
+	} else {
+		response.Success(c, "")
+	}
+}
+
+// 更新用户
+// Register 更新用户接口
+// @Summary 更新用户接口
+// @Tags  用户管理
+// @Security BearerAuth
+// @Param id path string true "用户ID"
+// @Param form body request.BaseUser true "用户信息"
+// @Success 200 {object} response.Response{data=models.User}
+// @Router /user/{id} [put]
+func UpdateUser(c *gin.Context) {
+	id := c.Param("id")
+	var form request.BaseUser
+	if err := c.ShouldBindJSON(&form); err != nil {
+		response.ValidateFail(c, request.GetErrorMsg(form, err))
+		return
+	}
+	if err, user := services.UserService.UpdateUser(id, form); err != nil {
+		response.BusinessFail(c, err.Error())
+		return
+	} else {
+		response.Success(c, user)
+	}
+}
+
+// 查看用户信息
+// Register 查看用户信息接口
+// @Summary 查看用户信息接口
+// @Tags  用户管理
+// @Security BearerAuth
+// @Param id path string true "用户ID"
+// @Success 200 {object} response.Response{data=models.User}
+// @Router /user/{id} [get]
+func InfoUser(c *gin.Context) {
+	id := c.Param("id")
+	if err, user := services.UserService.GetUserInfo(id); err != nil {
+		response.BusinessFail(c, err.Error())
+		return
+	} else {
+		response.Success(c, user)
+	}
 }

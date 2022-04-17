@@ -8,7 +8,7 @@ import (
 // @title Peng API
 // @version 1.0
 // @description example
-// @securityDefinitions.apikey ApiKeyAuth 启用token
+// @securityDefinitions.apikey BearerAuth
 // @in header
 // @name Authorization
 // @BasePath /api/v1

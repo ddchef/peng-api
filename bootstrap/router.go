@@ -26,8 +26,8 @@ func setupRouter() *gin.Engine {
 	routes.SetStaticRoutes(router)
 
 	// 注册 api 分组路由
-	apiGroup := router.Group("/api/v1")
-	routes.SetApiGroupRoutes(apiGroup)
+	apiGroup := router.Group("/api")
+	routes.SetV1ApiGroupRoutes(apiGroup)
 
 	return router
 }

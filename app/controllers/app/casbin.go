@@ -12,7 +12,7 @@ import (
 // Register 添加策略
 // @Summary 添加策略接口
 // @Tags 权限管理
-// @Security ApiKeyAuth
+// @Security BearerAuth
 // @Param policy body request.Policy true "策略"
 // @Success 200 {object} response.Response
 // @Router /casbin/policy [post]
@@ -27,11 +27,11 @@ func AddPolicy(c *gin.Context) {
 	}
 }
 
-// 添加用户、角色和域的策略
-// Register 添加用户、角色和域的策略
-// @Summary 添加用户、角色和域的策略接口
+// 添加用户、角色和组的策略
+// Register 添加用户、角色和组的策略
+// @Summary 添加用户、角色和组的策略接口
 // @Tags 权限管理
-// @Security ApiKeyAuth
+// @Security BearerAuth
 // @Param policy body request.UserRolePolicy true "策略"
 // @Success 200 {object} response.Response
 // @Router /casbin/user [post]

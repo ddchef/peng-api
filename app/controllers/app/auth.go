@@ -41,7 +41,7 @@ func Login(c *gin.Context) {
 // @Summary 登出接口
 // @Description 登出接口
 // @Tags 公共接口
-// @Security ApiKeyAuth
+// @Security BearerAuth
 // @Success 200 {object} response.Response
 // @Router /common/logout [post]
 func Logout(c *gin.Context) {

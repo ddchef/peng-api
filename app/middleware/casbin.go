@@ -1,9 +1,10 @@
 package middleware
 
 import (
-	"github.com/gin-gonic/gin"
 	"peng-api/app/common/response"
 	"peng-api/global"
+
+	"github.com/gin-gonic/gin"
 )
 
 func Casbin() gin.HandlerFunc {
@@ -16,7 +17,7 @@ func Casbin() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		success, err := global.App.Casbin.Enforce(user, "useradmin", path, method)
+		success, err := global.App.Casbin.Enforce(user, "admin", path, method)
 		if err != nil || success == false {
 			response.PermissionsFail(c)
 			c.Abort()

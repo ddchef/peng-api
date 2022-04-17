@@ -6,7 +6,6 @@ import (
 	"peng-api/app/models"
 	"peng-api/global"
 	"peng-api/utils"
-	"strconv"
 )
 
 type userService struct {
@@ -50,8 +49,7 @@ func (userService *userService) Login(params request.Login) (err error, user *mo
 
 // GetUserInfo 获取用户信息
 func (userService *userService) GetUserInfo(id string) (err error, user models.User) {
-	intId, err := strconv.Atoi(id)
-	err = global.App.DB.First(&user, intId).Error
+	err = global.App.DB.First(&user, "id = ?", id).Error
 	if err != nil {
 		err = errors.New("数据不存在")
 	}
@@ -64,5 +62,40 @@ func (userService *userService) GetUserList(offset int, limit int) (err error, u
 	if err != nil {
 		err = errors.New("查询失败")
 	}
+	return
+}
+
+func (userService *userService) UpdateUser(id string, params request.BaseUser) (err error, user models.User) {
+	err, user = userService.GetUserInfo(id)
+	if err != nil {
+		return
+	}
+	err = global.App.DB.Model(&user).Updates(params).Error
+	if err != nil {
+		err = errors.New("更新失败")
+	}
+	return
+}
+
+func (userService *userService) DeleteUser(id string) (err error) {
+	err, user := userService.GetUserInfo(id)
+	if err != nil {
+		return
+	}
+	err = global.App.DB.Delete(&user).Error
+	if err != nil {
+		err = errors.New("删除失败")
+	}
+	return
+}
+
+func (userService *userService) CreateUser(params request.BaseUser) (err error, user models.User) {
+	var result = global.App.DB.Where("username = ?", params.Username).Select("id").First(&models.User{})
+	if result.RowsAffected != 0 {
+		err = errors.New("用户已存在")
+		return
+	}
+	user = models.User{Username: params.Username, Email: params.Email, Password: utils.BcryptMake([]byte("1qazXSW@@"))}
+	err = global.App.DB.Create(&user).Error
 	return
 }
