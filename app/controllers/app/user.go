@@ -21,7 +21,7 @@ import (
 func Register(c *gin.Context) {
 	var form request.Register
 	if err := c.ShouldBindJSON(&form); err != nil {
-		response.ValidateFail(c, request.GetErrorMsg(form, err))
+		response.ValidateFail(c, request.GetErrorMsg(c, err))
 		return
 	}
 
@@ -79,7 +79,7 @@ func Users(c *gin.Context) {
 func CreateUser(c *gin.Context) {
 	var form request.BaseUser
 	if err := c.ShouldBindJSON(&form); err != nil {
-		response.ValidateFail(c, request.GetErrorMsg(form, err))
+		response.ValidateFail(c, request.GetErrorMsg(c, err))
 		return
 	}
 	if err, user := services.UserService.CreateUser(form); err != nil {
@@ -118,7 +118,7 @@ func UpdateUser(c *gin.Context) {
 	id := c.Param("id")
 	var form request.BaseUser
 	if err := c.ShouldBindJSON(&form); err != nil {
-		response.ValidateFail(c, request.GetErrorMsg(form, err))
+		response.ValidateFail(c, request.GetErrorMsg(c, err))
 		return
 	}
 	if err, user := services.UserService.UpdateUser(id, form); err != nil {

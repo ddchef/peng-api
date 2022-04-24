@@ -20,7 +20,7 @@ import (
 func Login(c *gin.Context) {
 	var form request.Login
 	if err := c.ShouldBindJSON(&form); err != nil {
-		response.ValidateFail(c, request.GetErrorMsg(form, err))
+		response.ValidateFail(c, request.GetErrorMsg(c, err))
 		return
 	}
 

@@ -21,7 +21,7 @@ import (
 func DomainCreate(c *gin.Context) {
 	var form request.Domain
 	if err := c.ShouldBindJSON(&form); err != nil {
-		response.ValidateFail(c, request.GetErrorMsg(form, err))
+		response.ValidateFail(c, request.GetErrorMsg(c, err))
 	}
 	if err, domain := services.DomainService.Create(form); err != nil {
 		response.BusinessFail(c, err.Error())
@@ -42,7 +42,7 @@ func DomainUpdate(c *gin.Context) {
 	id := c.Param("id")
 	var form request.Domain
 	if err := c.ShouldBindJSON(&form); err != nil {
-		response.ValidateFail(c, request.GetErrorMsg(form, err))
+		response.ValidateFail(c, request.GetErrorMsg(c, err))
 	}
 	if err, domain := services.DomainService.Update(id, form); err != nil {
 		response.BusinessFail(c, err.Error())

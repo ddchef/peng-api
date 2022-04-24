@@ -4,6 +4,7 @@ import (
 	"peng-api/config"
 
 	"github.com/casbin/casbin/v2"
+	ut "github.com/go-playground/universal-translator"
 	"github.com/go-redis/redis/v8"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -17,6 +18,7 @@ type Application struct {
 	DB          *gorm.DB
 	Redis       *redis.Client
 	Casbin      *casbin.Enforcer
+	Trans       ut.Translator
 }
 
 var App = new(Application)

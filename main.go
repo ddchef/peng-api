@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"peng-api/bootstrap"
 	"peng-api/global"
 )
@@ -30,7 +31,9 @@ func main() {
 		}
 	}()
 	// 初始化验证器
-	bootstrap.InitializeValidator()
+	if err := bootstrap.InitializeValidator("zh"); err != nil {
+		fmt.Print("初始化验证器失败")
+	}
 	// 初始化Redis
 	global.App.Redis = bootstrap.InitializeRedis()
 	// 启动服务

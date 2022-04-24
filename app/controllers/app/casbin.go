@@ -19,7 +19,7 @@ import (
 func AddPolicy(c *gin.Context) {
 	var policy request.Policy
 	if err := c.ShouldBindJSON(&policy); err != nil {
-		response.ValidateFail(c, request.GetErrorMsg(policy, err))
+		response.ValidateFail(c, request.GetErrorMsg(c, err))
 		return
 	}
 	if err := services.CasbinService.AddPolicy(policy); err != nil {
@@ -38,7 +38,7 @@ func AddPolicy(c *gin.Context) {
 func AddRoleForUserInDomain(c *gin.Context) {
 	var user request.UserRolePolicy
 	if err := c.ShouldBindJSON(&user); err != nil {
-		response.ValidateFail(c, request.GetErrorMsg(user, err))
+		response.ValidateFail(c, request.GetErrorMsg(c, err))
 		return
 	}
 	if err := services.CasbinService.AddRoleForUserInDomain(user); err != nil {
