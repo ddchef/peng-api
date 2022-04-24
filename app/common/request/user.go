@@ -3,6 +3,7 @@ package request
 type BaseUser struct {
 	Username string `form:"username" json:"username" binding:"min=4,max=10,required"`
 	Email    string `form:"email" json:"email" binding:"email"`
+	RealName string `form:"realName" json:"realName" binding:"min=4,max=10,required"`
 }
 
 func (user BaseUser) GetMessages() ValidatorMessages {
@@ -10,8 +11,9 @@ func (user BaseUser) GetMessages() ValidatorMessages {
 		"username.required": "用户名称不能为空",
 		"username.min":      "用户名称长度为4~10",
 		"username.max":      "用户名称长度为4~10",
-		"email.required":    " 邮箱不能为空",
-		"email.email":       " 邮箱格式不正确",
+		"email.required":    "邮箱不能为空",
+		"email.email":       "邮箱格式不正确",
+		"realName.required": "真实姓名不能为空",
 	}
 }
 

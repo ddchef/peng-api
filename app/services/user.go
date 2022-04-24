@@ -70,7 +70,7 @@ func (userService *userService) UpdateUser(id string, params request.BaseUser) (
 	if err != nil {
 		return
 	}
-	err = global.App.DB.Model(&user).Updates(models.User{Username: params.Username, Email: params.Email}).Error
+	err = global.App.DB.Model(&user).Updates(models.User{Username: params.Username, Email: params.Email, RealName: params.RealName}).Error
 	if err != nil {
 		err = errors.New("更新失败")
 	}
